@@ -59,6 +59,8 @@ const projects = [
     description: 'Signed mandates, deterministic policy, human approval, and verifiable audit events for machine-initiated payments.',
     stack: ['Python', 'MCP', 'Policy engine'],
     url: 'https://github.com/muhammadashir0/mandatepay', type: 'github',
+    image: 'projects/mandatepay.webp',
+    impact: "Prevents scope escalation, replay abuse, and unauthorized agent payments with deterministic, auditable decisions.",
   },
   {
     id: '02', category: 'ai', label: 'Responsible AI',
@@ -66,6 +68,8 @@ const projects = [
     description: 'Explainable transaction triage, grounded policy retrieval, and a tamper-evident audit journal with human oversight.',
     stack: ['Python', 'RAG', 'Audit chain'],
     url: 'https://github.com/muhammadashir0/regledger-ai', type: 'github',
+    image: 'projects/regledger.webp',
+    impact: "Makes compliance triage explainable and privately usable offline—without hiding evidence behind a black-box score.",
   },
   {
     id: '03', category: 'ai', label: 'Graph machine learning',
@@ -73,6 +77,8 @@ const projects = [
     description: 'A dual-stream fraud architecture combining graph attention networks, behavioral signals, and explainable reason codes.',
     stack: ['PyTorch', 'GAT', 'FastAPI'],
     url: 'https://github.com/muhammadashir0/europulse-fraud-guard', type: 'github',
+    image: 'projects/europulse.webp',
+    impact: "Connects transactions, devices, and behavior to expose coordinated fraud rings with human-readable reason codes.",
   },
   {
     id: '04', category: 'ai', label: 'AI assurance',
@@ -80,6 +86,8 @@ const projects = [
     description: 'A model-auditing concept for evaluating fairness, explainability, robustness, and performance against responsible-AI benchmarks.',
     stack: ['TensorFlow', 'XAI', 'Scikit-learn'],
     url: 'https://www.datascienceportfol.io/ashirali0998/projects/0', type: 'external',
+    image: 'projects/certifai.webp',
+    impact: "Turns fairness, explainability, and robustness checks into a structured responsible-AI audit workflow.",
   },
   {
     id: '05', category: 'data', label: 'Exploratory analysis',
@@ -87,6 +95,8 @@ const projects = [
     description: 'Data cleaning, analysis, and visualization exploring content formats, production countries, release years, and audience ratings.',
     stack: ['Pandas', 'NumPy', 'Matplotlib'],
     url: 'https://github.com/muhammadashir0/netflix-eda', type: 'github',
+    image: 'projects/netflix-eda.webp',
+    impact: "Transforms raw catalog data into reproducible insights on content formats, geography, release patterns, and ratings.",
   },
   {
     id: '06', category: 'data', label: 'Web engineering',
@@ -94,6 +104,8 @@ const projects = [
     description: 'A responsive company website designed and built for Saith Hanif Rice Mills in Jhabran, Pakistan.',
     stack: ['HTML', 'CSS', 'JavaScript'],
     url: 'https://muhammadashir0.github.io/jhabran-rice-mill/', type: 'external',
+    image: 'projects/rice-mill.webp',
+    impact: "Gives a real rice-milling business a responsive digital presence for products, quality, exports, and customer inquiries.",
   },
 ];
 
@@ -298,6 +310,11 @@ function App() {
           <div className="feature-metrics">
             {[['01', 'Signed human mandate'], ['08+', 'Deterministic policy dimensions'], ['04', 'Layered control architecture'], ['100%', 'Fail-closed philosophy']].map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}
           </div>
+          <figure className="flagship-screen">
+            <div className="screen-browser"><span><i /><i /><i /></span><b>OPERATOR CONSOLE / REAL PROJECT CAPTURE</b><a href="https://github.com/muhammadashir0/mandatepay" target="_blank" rel="noreferrer">SOURCE <ArrowUpRight size={12} /></a></div>
+            <img src={`${BASE_URL}projects/mandatepay.webp`} alt="MandatePay operator console showing payment authorization controls" loading="lazy" />
+            <figcaption><span>IMPACT</span><p>Bounded agent authority, replay-safe decisions, human approval, and tamper-evident evidence in one inspectable control plane.</p></figcaption>
+          </figure>
           <div className="architecture">
             <div className="architecture-heading"><span>AUTHORIZATION STACK</span><small>Select a layer to inspect</small></div>
             <div className="layer-tabs" role="tablist" aria-label="MandatePay architecture layers">
@@ -321,26 +338,26 @@ function App() {
         <div className="secondary-projects">
           <article className="secondary-project reveal">
             <div className="project-card-top"><span className="project-label">02 / RESPONSIBLE AI</span><a href="https://github.com/muhammadashir0/regledger-ai" target="_blank" rel="noreferrer" aria-label="View RegLedger AI on GitHub"><Github size={20} /></a></div>
+            <div className="project-preview"><img src={`${BASE_URL}projects/regledger.webp`} alt="RegLedger AI risk studio and compliance dashboard" loading="lazy" /><span>ACTUAL DASHBOARD</span></div>
             <h3>RegLedger AI <span>— Compliance copilot</span></h3>
             <p>Evidence-first financial-crime intelligence that connects transparent risk signals, policy-grounded retrieval, and a hash-chained audit journal.</p>
             <ul><li>Explainable 0–100 transaction risk signals</li><li>Provider-optional LLM with deterministic offline fallback</li><li>Cited policy evidence and human-readable controls</li></ul>
-            <div className="mini-workflow" aria-label="RegLedger AI workflow"><span>TRANSACTION</span><ChevronRight /><span>EVIDENCE</span><ChevronRight /><span>HUMAN REVIEW</span></div>
             <div className="tag-row"><span>Python</span><span>RAG</span><span>Audit chain</span></div>
           </article>
           <article className="secondary-project reveal">
             <div className="project-card-top"><span className="project-label">03 / GRAPH INTELLIGENCE</span><a href="https://github.com/muhammadashir0/europulse-fraud-guard" target="_blank" rel="noreferrer" aria-label="View Europulse Fraud Guard on GitHub"><Github size={20} /></a></div>
+            <div className="project-preview"><img src={`${BASE_URL}projects/europulse.webp`} alt="Europulse fraud monitoring dashboard with transaction risk analysis" loading="lazy" /><span>ACTUAL DASHBOARD</span></div>
             <h3>Europulse <span>— Fraud graph engine</span></h3>
             <p>A clear-box fraud-detection concept for European FinTech, combining relational intelligence and behavioral signals to expose coordinated attacks.</p>
             <ul><li>Graph Attention Networks for mule-network detection</li><li>Behavioral stream for coercion and APP-fraud signals</li><li>Human-readable XAI reason codes</li></ul>
-            <div className="graph-visual" aria-hidden="true"><i /><i /><i /><i /><i /><span /><span /><span /><span /></div>
             <div className="tag-row"><span>PyTorch</span><span>GAT</span><span>FastAPI</span></div>
           </article>
           <article className="secondary-project reveal">
             <div className="project-card-top"><span className="project-label">04 / AI ASSURANCE</span><a href="https://www.datascienceportfol.io/ashirali0998/projects/0" target="_blank" rel="noreferrer" aria-label="View CertifAI case study"><ExternalLink size={19} /></a></div>
+            <div className="project-preview"><img src={`${BASE_URL}projects/certifai.webp`} alt="CertifAI responsible AI assurance framework concept" loading="lazy" /><span>CONCEPT FRAMEWORK</span></div>
             <h3>CertifAI <span>— Model auditing</span></h3>
             <p>An automated auditing platform for evaluating machine-learning models against ethical and performance benchmarks.</p>
             <ul><li>Fairness and bias evaluation across sensitive attributes</li><li>Explainability and model-stability assessment</li><li>Robustness checks for critical AI systems</li></ul>
-            <div className="audit-visual" aria-hidden="true"><span>FAIRNESS</span><i /><span>XAI</span><i /><span>ROBUSTNESS</span></div>
             <div className="tag-row"><span>TensorFlow</span><span>XAI</span><span>Scikit-learn</span></div>
           </article>
         </div>
@@ -355,8 +372,10 @@ function App() {
         <div className="project-grid" aria-live="polite">
           {filteredProjects.map((project) => <ProjectLink project={project} className="matrix-card" key={project.id}>
             <div className="matrix-card-top"><span>{project.label}</span><span>SYS_{project.id}</span></div>
-            <div className="matrix-card-icon">{project.type === 'github' ? <Github size={20} /> : <ExternalLink size={20} />}<ArrowUpRight size={17} /></div>
+            <div className="matrix-shot"><img src={`${BASE_URL}${project.image}`} alt={`${project.title} project interface`} loading="lazy" /><span>{project.id === '04' ? 'CONCEPT FRAMEWORK' : 'PROJECT CAPTURE'}</span></div>
+            <div className="matrix-card-icon">{project.type === 'github' ? <Github size={18} /> : <ExternalLink size={18} />}<ArrowUpRight size={17} /></div>
             <h3>{project.title}</h3><h4>{project.subtitle}</h4><p>{project.description}</p>
+            <div className="project-impact"><strong>IMPACT</strong><p>{project.impact}</p></div>
             <div className="tag-row">{project.stack.map((tag) => <span key={tag}>{tag}</span>)}</div>
           </ProjectLink>)}
         </div>
@@ -385,3 +404,4 @@ function App() {
 }
 
 export default App;
+

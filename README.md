@@ -25,8 +25,10 @@ npm run preview
 ## Included
 
 - Responsive React + Vite single-page portfolio
+- Scroll-triggered multi-agent construction tour (never scrolls the page automatically)
 - Interactive MandatePay architecture explorer
-- Filterable project matrix with real GitHub and live-project links
+- Real project dashboard captures and verified impact summaries
+- Filterable matrix covering six flagship AI, FinTech, data, and web projects
 - Professional experience and education timeline
 - Downloadable, generated CV at `public/muhammad-ashir-cv.pdf`
 - GitHub, LinkedIn, email, and data-portfolio links

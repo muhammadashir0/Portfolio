@@ -154,6 +154,18 @@ img { display: block; max-width: 100%; }
 .feature-metrics div:last-child { border-right: 0; }
 .feature-metrics strong { display: block; color: var(--red); font: 500 21px var(--mono); margin-bottom: 7px; }
 .feature-metrics span { color: #737376; font: 8px var(--mono); text-transform: uppercase; }
+.flagship-screen { margin: 26px 0 0; border: 1px solid #303033; background: #080808; overflow: hidden; }
+.screen-browser { height: 37px; display: flex; align-items: center; gap: 15px; padding: 0 13px; border-bottom: 1px solid #29292c; background: #111112; }
+.screen-browser > span { display: flex; gap: 5px; }
+.screen-browser i { display: block; width: 6px; height: 6px; border-radius: 50%; background: #49494d; }
+.screen-browser i:first-child { background: var(--red); }
+.screen-browser b { color: #656569; font: 7px var(--mono); letter-spacing: .7px; }
+.screen-browser a { display: flex; align-items: center; gap: 5px; margin-left: auto; color: #999; font: 8px var(--mono); }
+.screen-browser a:hover { color: var(--red); }
+.flagship-screen > img { display: block; width: 100%; aspect-ratio: 2.35; object-fit: cover; object-position: top; filter: saturate(.8) contrast(1.04); }
+.flagship-screen figcaption { display: grid; grid-template-columns: 70px 1fr; align-items: start; gap: 15px; padding: 15px 18px; border-top: 1px solid #29292c; }
+.flagship-screen figcaption span, .project-impact strong { color: var(--red); font: 8px var(--mono); letter-spacing: .7px; }
+.flagship-screen figcaption p { margin: 0; color: #9a9a9d; font-size: 10px; line-height: 1.65; }
 .architecture { margin-top: 28px; }
 .architecture-heading { display: flex; justify-content: space-between; align-items: center; margin-bottom: 13px; }
 .architecture-heading > span { font: 500 9px var(--mono); letter-spacing: .5px; }
@@ -186,7 +198,11 @@ img { display: block; max-width: 100%; }
 .secondary-project { display: flex; flex-direction: column; border: 1px solid var(--line); padding: 24px; background: #0b0b0c; overflow: hidden; }
 .project-card-top a { color: #858588; transition: .2s; }
 .project-card-top a:hover { color: var(--red); }
-.secondary-project h3 { margin: 27px 0 13px; font-size: 17px; line-height: 1.35; }
+.project-preview { position: relative; margin: 20px -1px 0; border: 1px solid #29292c; overflow: hidden; background: #080808; }
+.project-preview img { display: block; width: 100%; aspect-ratio: 1.6; object-fit: cover; object-position: top; filter: saturate(.72) brightness(.88); transition: transform .5s, filter .3s; }
+.secondary-project:hover .project-preview img { transform: scale(1.025); filter: saturate(.95) brightness(1); }
+.project-preview > span, .matrix-shot > span { position: absolute; left: 8px; bottom: 8px; padding: 4px 6px; color: #c4c4c6; background: rgba(0,0,0,.84); border: 1px solid #3a3a3e; font: 6px var(--mono); letter-spacing: .6px; }
+.secondary-project h3 { margin: 22px 0 13px; font-size: 17px; line-height: 1.35; }
 .secondary-project h3 span { display: block; color: #b8b8b8; font-weight: 400; margin-top: 4px; }
 .secondary-project > p { color: #828285; font-size: 10px; line-height: 1.8; min-height: 73px; }
 .secondary-project > .tag-row { margin-top: auto; }
@@ -215,19 +231,24 @@ img { display: block; max-width: 100%; }
 .filters button.active span { color: #711b1b; }
 .matrix-count { color: #555559; font: 8px var(--mono); white-space: nowrap; }
 .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.matrix-card { position: relative; min-height: 342px; display: flex; flex-direction: column; border: 1px solid var(--line); padding: 23px; background: #0b0b0c; transition: transform .25s, border-color .25s, background .25s; animation: cardIn .35s ease; }
+.matrix-card { position: relative; min-height: 590px; display: flex; flex-direction: column; border: 1px solid var(--line); padding: 20px; background: #0b0b0c; transition: transform .25s, border-color .25s, background .25s; animation: cardIn .35s ease; }
 @keyframes cardIn { from { opacity: 0; transform: translateY(7px); } }
 .matrix-card::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 0; height: 2px; background: var(--red); transition: width .3s; }
 .matrix-card:hover { transform: translateY(-4px); border-color: #48484b; background: #0e0e0f; }
 .matrix-card:hover::after { width: 100%; }
 .matrix-card-top { display: flex; justify-content: space-between; color: var(--red); font: 8px var(--mono); text-transform: uppercase; }
 .matrix-card-top span:last-child { color: #4e4e51; }
-.matrix-card-icon { display: flex; justify-content: space-between; align-items: center; color: #555559; margin: 26px 0 17px; }
+.matrix-shot { position: relative; margin: 17px -1px 0; overflow: hidden; border: 1px solid #2c2c2f; background: #070707; }
+.matrix-shot img { display: block; width: 100%; aspect-ratio: 1.72; object-fit: cover; object-position: top; filter: saturate(.65) brightness(.82); transition: filter .3s, transform .45s; }
+.matrix-card:hover .matrix-shot img { filter: saturate(.95) brightness(1); transform: scale(1.025); }
+.matrix-card-icon { display: flex; justify-content: space-between; align-items: center; color: #555559; margin: 17px 0 12px; }
 .matrix-card-icon svg:last-child { color: #777; transition: .2s; }
 .matrix-card:hover .matrix-card-icon svg:last-child { color: var(--red); transform: translate(2px,-2px); }
 .matrix-card h3 { font-size: 21px; margin: 0 0 5px; }
 .matrix-card h4 { color: #b1b1b3; font-size: 11px; font-weight: 400; margin: 0 0 15px; }
 .matrix-card p { color: #7c7c7f; font-size: 11px; line-height: 1.75; margin: 0 0 23px; }
+.project-impact { margin: 0 0 19px; padding: 12px; background: #101011; border-left: 1px solid #713033; }
+.project-impact p { margin: 6px 0 0; color: #a0a0a3; font-size: 10px; line-height: 1.65; }
 .matrix-card .tag-row { margin-top: auto; }
 .toolbox { display: grid; grid-template-columns: .7fr 1.3fr; gap: 70px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 80px; padding: 45px 0; }
 .toolbox-intro h3 { font-size: 25px; line-height: 1.25; letter-spacing: -1px; margin: 15px 0; }
@@ -326,6 +347,9 @@ img { display: block; max-width: 100%; }
   .feature-metrics div:nth-child(3), .feature-metrics div:nth-child(4) { border-bottom: 0; }
   .feature-metrics strong { font-size: 18px; }
   .feature-metrics span { font-size: 7px; }
+  .flagship-screen > img { aspect-ratio: 1.5; }
+  .flagship-screen figcaption { grid-template-columns: 1fr; gap: 7px; }
+  .screen-browser b { display: none; }
   .architecture-heading small { display: none; }
   .layer-tabs { grid-template-columns: 1fr 1fr; }
   .layer-tabs button { font-size: 8px; }

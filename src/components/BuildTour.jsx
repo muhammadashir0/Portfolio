@@ -14,11 +14,12 @@ const TARGETS = [
   '.section-index', '.section-heading .section-kicker', '.section-heading h2', '.section-heading > p',
   '.about-copy > p', '.about-copy blockquote', '.principle',
   '.feature-topline', '.feature-title-row h3', '.feature-title-row p', '.round-link',
-  '.feature-metrics > div', '.architecture-heading', '.layer-tabs button', '.layer-panel > div:first-child',
-  '.architecture-diagram', '.secondary-project .project-card-top', '.secondary-project h3',
-  '.secondary-project > p', '.secondary-project li', '.secondary-project .tag-row',
-  '.matrix-toolbar', '.matrix-card', '.contact-inner .section-kicker', '.contact-inner h2',
-  '.contact-inner > p', '.contact-email', '.social-links a', '.contact-status',
+  '.feature-metrics > div', '.flagship-screen', '.architecture-heading', '.layer-tabs button',
+  '.layer-panel > div:first-child', '.architecture-diagram', '.secondary-project .project-card-top',
+  '.secondary-project .project-preview', '.secondary-project h3', '.secondary-project > p',
+  '.secondary-project li', '.secondary-project .tag-row', '.matrix-toolbar', '.matrix-card',
+  '.contact-inner .section-kicker', '.contact-inner h2', '.contact-inner > p', '.contact-email',
+  '.social-links a', '.contact-status',
 ].join(',');
 
 export default function BuildTour() {
@@ -51,13 +52,16 @@ export default function BuildTour() {
       gain.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.045);
       oscillator.connect(gain); gain.connect(audio.destination);
       oscillator.start(); oscillator.stop(audio.currentTime + 0.05);
-    } catch { /* Audio is optional. */ }
+    } catch { /* Sound is optional. */ }
   };
 
   useEffect(() => {
     let disposed = false;
     let finished = false;
+    let pumping = false;
     let done = 0;
+    let queue = [];
+    let cursorIndex = 0;
     const targets = [...document.querySelectorAll(TARGETS)].filter((el, index, all) => all.indexOf(el) === index);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     setProgress({ done: 0, total: targets.length, scanning: !reducedMotion });
@@ -78,35 +82,56 @@ export default function BuildTour() {
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms / speedRef.current));
     const checkpoint = async () => { while (pausedRef.current && !finished && !disposed) await wait(120); };
     const box = (el) => {
-      const r = el.getBoundingClientRect();
-      return { x: r.left + window.scrollX, y: r.top + window.scrollY, w: r.width, h: r.height };
+      const rect = el.getBoundingClientRect();
+      return { x: rect.left + window.scrollX, y: rect.top + window.scrollY, w: rect.width, h: rect.height };
     };
     const add = (className, bounds, html = '') => {
       const node = document.createElement('div');
       node.className = className;
-      if (bounds) Object.assign(node.style, { left: `${bounds.x}px`, top: `${bounds.y}px`, width: `${bounds.width || bounds.w}px`, height: `${bounds.height || bounds.h}px` });
+      if (bounds) Object.assign(node.style, { left: `${bounds.x}px`, top: `${bounds.y}px`, width: `${bounds.w}px`, height: `${bounds.h}px` });
       node.innerHTML = html;
       stage.appendChild(node);
       return node;
     };
-
     const cursors = AGENTS.map(([name, color], index) => {
       const el = add('tour-cursor', null, `<svg viewBox="0 0 16 20" width="16" height="20"><path d="M1 1 L1 16 L5 12 L8 19 L11 18 L8 11 L14 11 Z" fill="${color}" stroke="white" stroke-width="1.1"/></svg><span style="background:${color}">${name}</span>`);
       el.style.transform = `translate(${window.innerWidth * (0.08 + (index % 7) * 0.12)}px,${window.scrollY + window.innerHeight - 45 - Math.floor(index / 7) * 28}px)`;
       return { el, color, name };
     });
 
-    const updateProgress = () => setProgress({ done, total: targets.length, scanning: false });
-    const revealImmediately = (el) => {
-      el.classList.remove('tour-pending', 'tour-typing', 'tour-in');
-      el.style.opacity = '';
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      observer.disconnect();
+      targets.forEach((el) => {
+        el.classList.remove('tour-pending', 'tour-typing', 'tour-in');
+        delete el.dataset.tourDone;
+      });
+      stage.remove();
+      setActive(false);
+      setPaused(false);
+      setProgress((current) => ({ ...current, done: targets.length, scanning: false }));
+      window.dispatchEvent(new Event('portfolio:burst'));
+    };
+    skipRef.current = finish;
+
+    const complete = (el) => {
+      if (el.dataset.tourDone) return;
+      el.dataset.tourDone = 'true';
+      el.classList.remove('tour-pending', 'tour-typing');
+      setTimeout(() => el.classList.remove('tour-in', 'tour-portrait-active'), 650);
+      done += 1;
+      setProgress({ done, total: targets.length, scanning: false });
+      if (done >= targets.length) finish();
     };
 
-    const build = async (agent, el, agentIndex) => {
-      if (finished || disposed || el.dataset.tourDone) { if (el.dataset.tourDone) return; }
+    const build = async (agent, el) => {
+      if (finished || disposed || el.dataset.tourDone) return;
       await checkpoint();
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) { complete(el); return; }
       const bounds = box(el);
-      if (!bounds.w || !bounds.h) { revealImmediately(el); return; }
+      if (!bounds.w || !bounds.h) { complete(el); return; }
       const ghost = add('tour-ghost', bounds);
       agent.el.style.opacity = '1';
       agent.el.style.transform = `translate(${bounds.x + Math.min(Math.max(bounds.w - 10, 12), 30)}px,${bounds.y + Math.min(Math.max(bounds.h - 8, 10), 24)}px)`;
@@ -120,62 +145,68 @@ export default function BuildTour() {
       if (el.classList.contains('portrait-frame')) el.classList.add('tour-portrait-active');
       clickTone();
       await wait(isText ? 520 : 390);
-      const mark = add('tour-mark', { x: bounds.x + bounds.w - 6, y: bounds.y - 6, width: 12, height: 12 });
+      if (finished || disposed) return;
+      const markBounds = { x: bounds.x + bounds.w - 6, y: bounds.y - 6, w: 12, h: 12 };
+      const mark = add('tour-mark', markBounds);
       mark.style.color = agent.color;
       ghost.remove(); selection.remove();
       setTimeout(() => mark.remove(), 800);
-      setTimeout(() => { el.classList.remove('tour-in', 'tour-typing', 'tour-portrait-active'); }, 650);
-      el.dataset.tourDone = 'true';
-      done += 1;
-      updateProgress();
-      if (agentIndex % 3 === 0) await wait(70);
+      complete(el);
     };
 
-    const finish = () => {
-      if (finished) return;
-      finished = true;
-      targets.forEach((el) => { revealImmediately(el); delete el.dataset.tourDone; });
-      stage.remove();
-      setActive(false);
-      setPaused(false);
-      setProgress((p) => ({ ...p, done: targets.length, scanning: false }));
-      window.dispatchEvent(new Event('portfolio:burst'));
-    };
-    skipRef.current = finish;
-
-    (async () => {
-      await wait(550);
-      setProgress({ done: 0, total: targets.length, scanning: false });
-      let cursorIndex = 0;
-      for (let i = 0; i < targets.length; i += 4) {
-        if (finished || disposed) break;
+    const pump = async () => {
+      if (pumping || finished || disposed) return;
+      pumping = true;
+      setProgress((current) => ({ ...current, scanning: false }));
+      while (queue.length && !finished && !disposed) {
         await checkpoint();
-        const batch = targets.slice(i, i + 4).filter((el) => !el.dataset.tourDone);
-        if (!batch.length) continue;
-        const first = batch[0];
-        const rect = first.getBoundingClientRect();
-        if (rect.top < 105 || rect.bottom > window.innerHeight - 105) {
-          first.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          await wait(520);
-        }
+        const batch = queue.splice(0, 4);
         await Promise.all(batch.map((el) => {
           const agent = cursors[cursorIndex % cursors.length];
-          const currentIndex = cursorIndex;
           cursorIndex += 1;
-          return build(agent, el, currentIndex);
+          return build(agent, el);
         }));
       }
-      if (!finished && !disposed) {
-        document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        await wait(650);
-        finish();
-      }
-    })();
+      cursors.forEach((cursor) => { cursor.el.style.opacity = '0'; });
+      pumping = false;
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || entry.target.dataset.tourDone) return;
+        observer.unobserve(entry.target);
+        if (!queue.includes(entry.target)) queue.push(entry.target);
+      });
+      queue.sort((a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+      pump();
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+    targets.forEach((el) => observer.observe(el));
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking || finished) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        targets.forEach((el) => {
+          if (el.dataset.tourDone || el.getBoundingClientRect().bottom >= 0) return;
+          observer.unobserve(el);
+          queue = queue.filter((queued) => queued !== el);
+          complete(el);
+        });
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     return () => {
       disposed = true;
       finished = true;
-      targets.forEach((el) => { revealImmediately(el); delete el.dataset.tourDone; });
+      observer.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      targets.forEach((el) => {
+        el.classList.remove('tour-pending', 'tour-typing', 'tour-in', 'tour-portrait-active');
+        delete el.dataset.tourDone;
+      });
       stage.remove();
       skipRef.current = null;
     };
@@ -189,7 +220,7 @@ export default function BuildTour() {
   return <div className="tour-hud" role="status" aria-live="polite">
     <div className="tour-agents" aria-hidden="true">{AGENTS.slice(0, 7).map(([name, color]) => <i key={name} style={{ background: color }}>{name[0]}</i>)}</div>
     <strong>14</strong><span>agents</span><span className="tour-separator" />
-    <span className="tour-progress-label">{progress.scanning ? 'Scanning page…' : <><b>{progress.done}</b> / {progress.total} layers</>}</span>
+    <span className="tour-progress-label">{progress.scanning ? 'Scroll to build…' : <><b>{progress.done}</b> / {progress.total} layers</>}</span>
     <span className="tour-progress"><i style={{ width: `${percent}%` }} /></span>
     <button className="tour-control" onClick={() => setPaused((value) => !value)} aria-label={paused ? 'Resume tour' : 'Pause tour'}>{paused ? <Play size={12} /> : <Pause size={12} />}</button>
     <button className="tour-speed" onClick={() => setSpeed((value) => value === 1 ? 1.5 : value === 1.5 ? 2 : 1)} aria-label="Change tour speed">{speed}×</button>
