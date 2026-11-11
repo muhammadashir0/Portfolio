@@ -24,7 +24,7 @@ export default function VectorParticleCanvas() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-      const count = Math.min(Math.floor((width * height) / 20000), 65);
+      const count = Math.min(Math.floor((width * height) / 28000), 45);
       particles = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -34,7 +34,7 @@ export default function VectorParticleCanvas() {
         rotation: Math.random() * Math.PI * 2,
         spin: (Math.random() - 0.5) * 0.012,
         arrow: Math.random() > 0.62,
-        red: Math.random() < 0.2,
+        red: Math.random() < 0.16,
         alpha: 0.15 + Math.random() * 0.36,
         pulse: Math.random() * Math.PI * 2,
       }));
