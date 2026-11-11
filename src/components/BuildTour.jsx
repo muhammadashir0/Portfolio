@@ -11,7 +11,7 @@ const AGENTS = [
 const TARGETS = [
   '.hero-word', '.hello', '.hero h1', '.role', '.hero-summary', '.hero-buttons .button',
   '.hero-stats > div', '.portrait-frame', '.portrait-caption', '.specialization', '.location',
-  '.section-index', '.section-heading .section-kicker', '.section-heading h2', '.section-heading > p',
+  '.section-heading .section-kicker', '.section-heading h2', '.section-heading > p',
   '.about-copy > p', '.about-copy blockquote', '.principle',
   '.feature-topline', '.feature-title-row h3', '.feature-title-row p', '.round-link',
   '.feature-metrics > div', '.flagship-screen', '.architecture-heading', '.layer-tabs button',
@@ -19,7 +19,7 @@ const TARGETS = [
   '.secondary-project .project-preview', '.secondary-project h3', '.secondary-project > p',
   '.secondary-project li', '.secondary-project .tag-row', '.matrix-toolbar', '.matrix-card',
   '.contact-inner .section-kicker', '.contact-inner h2', '.contact-inner > p', '.contact-email',
-  '.social-links a', '.contact-status',
+  '.certification-card', '.social-links a', '.contact-status',
 ].join(',');
 
 export default function BuildTour() {

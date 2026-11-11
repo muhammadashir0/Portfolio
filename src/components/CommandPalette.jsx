@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, FileDown, Search, X } from 'lucide-react';
 
-export default function CommandPalette({ open, onClose, projects, layers }) {
+export default function CommandPalette({ open, onClose, projects, layers, certifications = [] }) {
   const [query, setQuery] = useState('');
 
   useEffect(() => {
@@ -19,7 +19,8 @@ export default function CommandPalette({ open, onClose, projects, layers }) {
     { type: 'DOCUMENT', title: 'Download Muhammad Ashir’s CV', description: 'Professional experience, education, and selected projects', href: `${import.meta.env.BASE_URL}muhammad-ashir-cv.pdf`, download: true },
     ...layers.map((layer) => ({ type: 'ARCHITECTURE', title: layer.title, description: layer.text, href: '#projects' })),
     ...projects.map((project) => ({ type: 'SYSTEM', title: project.title, description: project.description, href: project.url, external: true })),
-  ], [projects, layers]);
+    ...certifications.map((certification) => ({ type: 'CERTIFICATION', title: certification.title, description: `Verified credential · ${certification.year}`, href: certification.url, external: true })),
+  ], [projects, layers, certifications]);
 
   if (!open) return null;
   const normalized = query.trim().toLowerCase();
