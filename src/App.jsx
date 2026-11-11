@@ -3,7 +3,7 @@ import VectorParticleCanvas from './components/VectorParticleCanvas.jsx';
 import BuildTour from './components/BuildTour.jsx';
 import CommandPalette from './components/CommandPalette.jsx';
 import {
-  ArrowDown, ArrowUpRight, Check, ChevronRight,
+  ArrowDown, ArrowUpRight, BadgeCheck, Check, ChevronRight,
   Copy, Database, Download, ExternalLink, Github,
   Linkedin, MapPin, Menu, Search, ShieldCheck, X,
 } from 'lucide-react';
@@ -107,10 +107,35 @@ const projects = [
     image: 'projects/rice-mill.webp',
     impact: "Gives a real rice-milling business a responsive digital presence for products, quality, exports, and customer inquiries.",
   },
+  {
+    id: '07', category: 'data', label: 'Enterprise banking',
+    title: 'Access Bank Ghana', subtitle: 'Core banking implementation & data integration',
+    description: 'Oracle application support, workflow customization, SQL optimization, ETL scripting, operational reporting, and production delivery for Access Bank Ghana.',
+    stack: ['SQL', 'ETL', 'Data integration'],
+    url: 'https://de.linkedin.com/in/muhammadashir1', type: 'external',
+    image: 'projects/access-bank.svg',
+    impact: "Supported reliable banking operations from implementation and testing through client handover, documentation, and knowledge transfer.",
+  },
+  {
+    id: '08', category: 'ai', label: 'Speech & NLP',
+    title: 'NLPowereDub', subtitle: 'AI-based English-to-Urdu dubbing system',
+    description: 'An AI-assisted dubbing pipeline combining speech processing, translation, voice alignment, and lip reanimation for more natural English-to-Urdu video dubbing.',
+    stack: ['Python', 'NLP', 'Machine learning'],
+    url: 'https://de.linkedin.com/in/muhammadashir1', type: 'external',
+    image: 'projects/nlpoweredub.svg',
+    impact: "Reduces synchronization differences between original and dubbed content while improving voice alignment, realism, and viewer experience.",
+  },
 ];
 
 const filters = [
   ['all', 'All systems'], ['ai', 'AI & ML'], ['fintech', 'FinTech'], ['data', 'Data & web'],
+];
+
+const certifications = [
+  { title: 'Building with the Claude API', year: '2026', url: 'https://verify.skilljar.com/c/w9v368e65f2i', code: 'CERT_01' },
+  { title: 'Claude 101', year: '2026', url: 'https://verify.skilljar.com/c/gawqmqo36xwo', code: 'CERT_02' },
+  { title: 'AI Fluency: Framework & Foundations', year: '2026', url: 'https://verify.skilljar.com/c/prbmeaxicf2u', code: 'CERT_03' },
+  { title: 'Introduction to Agent Skills', year: '2026', url: 'https://verify.skilljar.com/c/v8drwv86dj8g', code: 'CERT_04' },
 ];
 
 function Brand() {
@@ -212,7 +237,7 @@ function App() {
     <a href="#main" className="skip-link">Skip to content</a>
     <VectorParticleCanvas />
     <BuildTour />
-    <CommandPalette open={searchOpen} onClose={() => setSearchOpen(false)} projects={projects} layers={layers} />
+    <CommandPalette open={searchOpen} onClose={() => setSearchOpen(false)} projects={projects} layers={layers} certifications={certifications} />
     <div className="noise" aria-hidden="true" />
     <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-inner">
@@ -249,7 +274,7 @@ function App() {
             <div className="hero-stats">
               <div><strong>02<span>+</span></strong><span>Years<br />experience</span></div>
               <div><strong>40<span>%</span></strong><span>Database<br />performance</span></div>
-              <div><strong>M<span>.</span>Sc</strong><span>Data Science<br />candidate</span></div>
+              <div><strong>M<span>.</span>Res</strong><span>Computer & Systems<br />Engineering</span></div>
             </div>
           </div>
 
@@ -278,12 +303,12 @@ function App() {
       </section>
 
       <section id="about" className="about section-shell section-space">
-        <div className="section-index">// 01.00 SEC_ABOUT <span>[ 01 / 05 ]</span></div>
         <SectionHeading index="01 /" eyebrow="Engineer profile" title="Background & Philosophy" />
         <div className="about-grid">
           <div className="about-copy reveal">
-            <p>I’m <strong>Muhammad Ashir</strong>—a data scientist and software engineer working where machine intelligence meets regulated financial infrastructure. My path spans enterprise banking systems in Pakistan and advanced data science in Germany.</p>
-            <p>At <strong>CubeBytes Solutions</strong> and <strong>Bootlogix</strong>, I optimized Oracle-based systems, redesigned ETL workflows, supported KYC modernization, and improved database performance by <strong>40%</strong>. Today, my M.Sc. at <strong>Technische Universität Ilmenau</strong> deepens my focus on machine learning, statistical modeling, and data-driven systems.</p>
+            <p>I’m <strong>Muhammad Ashir</strong>—a software and data engineer working where machine intelligence meets regulated financial infrastructure. My experience spans enterprise banking implementations in Pakistan and advanced computer and systems engineering research in Germany.</p>
+            <p>At <strong>Bootlogix</strong>, I managed ETL pipelines across <strong>500+ source tables</strong>, optimized Oracle databases containing <strong>500M+ records</strong>, reduced manual processing by <strong>60%</strong> with Apache Airflow, and improved throughput by <strong>40%</strong>. At <strong>CubeBytes Solutions</strong>, I delivered <strong>20+ Oracle Analytics dashboards</strong> and KYC automation that reduced manual compliance effort by <strong>25%</strong>.</p>
+            <p>My current <strong>M.Res. in Computer and Systems Engineering</strong> at <strong>Technische Universität Ilmenau</strong> focuses on AI, machine learning, data engineering, big data analytics, distributed systems, and cloud computing.</p>
             <blockquote>“Build intelligence that can explain itself, infrastructure that fails safely, and automation that keeps humans accountable.”</blockquote>
           </div>
           <div className="principles reveal">
@@ -380,6 +405,18 @@ function App() {
           </ProjectLink>)}
         </div>
 
+      </section>
+
+      <section id="credentials" className="credentials section-shell section-space">
+        <SectionHeading index="04 /" eyebrow="Verified learning" title="Credentials & Certifications" description="Claude and AI coursework completed in 2026. Each credential opens its public Skilljar verification page." />
+        <div className="certification-grid">
+          {certifications.map((certification) => <a className="certification-card reveal" key={certification.code} href={certification.url} target="_blank" rel="noreferrer">
+            <div className="certification-top"><span>{certification.code}</span><BadgeCheck size={23} /></div>
+            <span className="certification-issuer">ANTHROPIC / SKILLJAR VERIFIED</span>
+            <h3>{certification.title}</h3>
+            <div className="certification-bottom"><span>ISSUED {certification.year}</span><span>VIEW CERTIFICATE <ArrowUpRight size={13} /></span></div>
+          </a>)}
+        </div>
       </section>
 
       <section id="contact" className="contact section-shell section-space">

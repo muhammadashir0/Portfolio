@@ -28,9 +28,10 @@ npm run preview
 - Scroll-triggered multi-agent construction tour (never scrolls the page automatically)
 - Interactive MandatePay architecture explorer
 - Real project dashboard captures and verified impact summaries
-- Filterable matrix covering six flagship AI, FinTech, data, and web projects
+- Filterable matrix covering eight AI, FinTech, data, speech/NLP, enterprise, and web projects
+- Four verifiable Claude/AI certifications with public Skilljar links
 - Professional experience and education timeline
-- Downloadable, generated CV at `public/muhammad-ashir-cv.pdf`
+- Downloadable, user-supplied CV at `public/muhammad-ashir-cv.pdf`
 - GitHub, LinkedIn, email, and data-portfolio links
 - Accessible mobile navigation, reduced-motion support, and semantic sections
 
